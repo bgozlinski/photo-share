@@ -4,6 +4,7 @@ from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
 
+
 class Users(Base):
     __tablename__ = "users"
 
@@ -11,6 +12,6 @@ class Users(Base):
     username = Column(String, unique=True, index=True)
     email = Column(String, unique=True)
     password = Column(String)
-    is_active = Column(Boolean, default=True)
+    is_active = Column(Boolean, default=False)
     role = Column(String, default="user")
     created_at = Column(DateTime, default=datetime.utcnow)
