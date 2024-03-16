@@ -15,6 +15,14 @@ async def create_user(user_data: UsersModel,
     return await repository_users.create_user(user_data=user_data, db=db)
 
 
+@router.get("/{user_id}")
+async def get_user(user_id: int,
+                   db: Session = Depends(get_db)
+                   ):
+
+    return await repository_users.get_user(user_id=user_id, db=db)
+
+
 
 
 
