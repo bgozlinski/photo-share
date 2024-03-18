@@ -22,11 +22,11 @@ async def create_user(user_data: UsersModel,
     return user
 
 
-async def get_user(user_data: UsersResponseModel,
+async def get_user(user_id: int,
                    db: Session
                    ) -> Users:
 
-    user = db.query(Users).filter(Users.id == user_data.id).first()
+    user = db.query(Users).filter(Users.id == user_id).first()
     return user
 
 

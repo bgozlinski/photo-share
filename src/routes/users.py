@@ -20,7 +20,7 @@ async def get_user(user_id: int,
                    db: Session = Depends(get_db)
                    ):
 
-    return await repository_users.get_user(user_data=UsersResponseModel.id, db=db)
+    return await repository_users.get_user(user_id=user_id, db=db)
 
 
 
