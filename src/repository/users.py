@@ -1,13 +1,19 @@
 from sqlalchemy.orm import Session
+
+from src.auth import get_password_hash
 from src.database.models import Users
-from src.schemas import UsersModel
+from src.schemas import UsersModel, UsersResponseModel
 
 
 async def create_user(user_data: UsersModel,
                       db: Session
                       ) -> Users:
 
-    user = Users(**user_data.dict())
+    hashed_password = get_password_hash(user_data.password)
+    user_dict = user_data.dict()
+    user_dict['password'] = hashed_password
+
+    user = Users(**user_dict)
 
     db.add(user)
     db.commit()
@@ -16,11 +22,11 @@ async def create_user(user_data: UsersModel,
     return user
 
 
-async def get_user(user_id: int,
+async def get_user(user_data: UsersResponseModel,
                    db: Session
                    ) -> Users:
 
-    user = db.query(Users).filter(Users.id == user_id).first()
+    user = db.query(Users).filter(Users.id == user_data.id).first()
     return user
 
 
