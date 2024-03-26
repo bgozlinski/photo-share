@@ -1,4 +1,5 @@
 from fastapi import HTTPException
+from sqlalchemy import or_
 from sqlalchemy.orm import Session
 
 from src.auth import get_password_hash
@@ -9,6 +10,16 @@ from src.schemas import UsersModel, UsersResponseModel
 async def create_user(user_data: UsersModel,
                       db: Session
                       ) -> Users:
+
+    existing_user = db.query(Users).filter(
+        or_(
+            Users.username == user_data.username,
+            Users.email == user_data.email
+        )
+    ).first()
+
+    if existing_user:
+        raise HTTPException(status_code=409, detail="Username or email already exists")
 
     hashed_password = get_password_hash(user_data.password)
     user_dict = user_data.dict()
