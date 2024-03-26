@@ -23,8 +23,9 @@ async def get_user(user_id: int,
     return await repository_users.get_user(user_id=user_id, db=db)
 
 
+@router.delete("/{user_id}")
+async def delete_user(user_id: int,
+                      db: Session = Depends(get_db)
+                      ):
 
-
-
-
-
+    return await repository_users.delete_user(user_id=user_id, db=db)

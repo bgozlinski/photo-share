@@ -1,3 +1,4 @@
+from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
 from src.auth import get_password_hash
@@ -30,3 +31,10 @@ async def get_user(user_id: int,
     return user
 
 
+async def delete_user(user_id: int,
+                      db: Session
+                      ):
+
+    user = db.query(Users).filter(Users.id == user_id).first()
+    db.delete(user)
+    db.commit()
