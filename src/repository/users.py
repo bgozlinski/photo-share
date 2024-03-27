@@ -1,3 +1,5 @@
+from typing import List
+
 from fastapi import HTTPException
 from sqlalchemy import or_
 from sqlalchemy.orm import Session
@@ -40,6 +42,10 @@ async def get_user(user_id: int,
 
     user = db.query(Users).filter(Users.id == user_id).first()
     return user
+
+
+async def get_all_users(db: Session) -> List[Users]:
+    return db.query(Users).all()
 
 
 async def delete_user(user_id: int,

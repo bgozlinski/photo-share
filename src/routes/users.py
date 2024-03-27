@@ -1,8 +1,10 @@
+from typing import List
+
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from src.database.db import get_db
 import src.repository.users as repository_users
-from src.schemas import UsersModel, UsersUpdateModel
+from src.schemas import UsersModel, UsersUpdateModel, UsersDisplayModel
 
 router = APIRouter(tags=["users"])
 
@@ -13,6 +15,11 @@ async def create_user(user_data: UsersModel,
                       ):
 
     return await repository_users.create_user(user_data=user_data, db=db)
+
+
+@router.get("/all", response_model=List[UsersDisplayModel])
+async def get_all_users(db: Session = Depends(get_db)):
+    return await repository_users.get_all_users(db=db)
 
 
 @router.get("/{user_id}", response_model=UsersModel)
