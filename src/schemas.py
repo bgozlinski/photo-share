@@ -10,3 +10,11 @@ class UsersModel(BaseModel):
 class UsersUpdateModel(BaseModel):
     username: str | None = None
     email: EmailStr | None = None
+
+
+class UsersDisplayModel(BaseModel):
+    username: str
+    email: str
+
+    class Config:
+        orm_mode = True
